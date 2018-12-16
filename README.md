@@ -50,6 +50,25 @@ encoder.audioSettings = @
 
 ```
 
+``` swift
+let asset = AVAsset(url: sourceURL)
+let encoder = SDAVAssetExportSession(asset: asset)
+encoder?.outputFileType = AVFileType.mp4.rawValue
+encoder.outputURL = outputFileURL
+encoder.videoSettings = [AVVideoCodecKey: AVVideoCodecH264, AVVideoWidthKey: 1920, AVVideoHeightKey: 1080, AVVideoCompressionPropertiesKey: [AVVideoAverageBitRateKey: 6000000, AVVideoProfileLevelKey: AVVideoProfileLevelH264High40]]
+encoder.audioSettings = [AVFormatIDKey: kAudioFormatMPEG4AAC, AVNumberOfChannelsKey: 2, AVSampleRateKey: 44100, AVEncoderBitRateKey: 128000]
+
+encoder.exportAsynchronously(completionHandler: {
+    if encoder.status == .completed {
+        print("Video export succeeded")
+    } else if encoder.status == .cancelled {
+        print("Video export cancelled")
+    } else {
+        print("Video export failed with error: \(encoder.error.localizedDescription) (\(encoder.error.code))")
+    }
+})
+```
+
 Licenses
 --------
 
